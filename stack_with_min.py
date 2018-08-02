@@ -33,6 +33,12 @@ class Stack_With_Min():
         self.length -= 1
         return value
 
+    def top(self):
+        if self.stack1:
+            return self.stack1[self.length-1]
+        else:
+            return None
+
     def min(self):
         if not self.stack2:
             return None

@@ -90,6 +90,7 @@ def min_tree(root):
         node = node.left
     return node.value
 
+# 判断treeb是不是treea的子树
 def is_subtree(treea, treeb):
     result = False
     if treea and treeb:
@@ -114,6 +115,7 @@ def is_equal_tree(treea, treeb):
     return is_equal_tree(treea.left, treeb.left) and \
         is_equal_tree(treea.right, treeb.right) 
 
+# 求treea的镜像
 def mirror_of_tree(treea):
     if not treea:
         return None
@@ -123,7 +125,23 @@ def mirror_of_tree(treea):
     if treea.right:
         treeb.left = mirror_of_tree(treea.right)
     return treeb
-   
+
+# 求和为某值的路径，路径是指根节点到某一叶子节点所经过的所有节点
+def find_valued_path(tree, value):
+    if tree is None:
+        return None
+
+    nodes_in_path.append(tree.value) 
+    if tree.left:
+        find_valued_path(tree.left, value)
+    if tree.right:
+        find_valued_path(tree.right, value)
+    if not tree.left and not tree.right:
+        if sum(nodes_in_path) == value:
+            result_of_find_valued_path.append(copy.deepcopy(nodes_in_path))
+        return nodes_in_path.pop()
+    nodes_in_path.pop()
+
 
 if __name__ == '__main__':
     # list_for_tree = [50, ]
@@ -132,26 +150,34 @@ if __name__ == '__main__':
         # list_for_tree.append(random.randint(0, 100))
     # print list_for_tree
 
+    import copy
     list_for_tree = [50, 38, 91, 67, 59, 29, 98, 48, 91, 20, 85, 32, 87, 25, 70, 48, 52, 14, 41,\
                      100, 60, 64, 94, 49, 91, 7, 66, 99, 29, 99, 36]
     print list_for_tree
 
     root = build_from_list(list_for_tree)
-    bianli_ceng(root)
 
-    print min_tree(root)
+    # bianli_ceng(root)
+    # print min_tree(root)
 
-    import copy
-    bianli_result = []
-    bianli_qianxu(root)
-    qianxu_list = copy.deepcopy(bianli_result)
-    bianli_result = []
-    bianli_zhongxu(root)
-    zhongxu_list = copy.deepcopy(bianli_result)
-    print qianxu_list
-    print zhongxu_list
+    # bianli_result = []
+    # bianli_qianxu(root)
+    # qianxu_list = copy.deepcopy(bianli_result)
+    # bianli_result = []
+    # bianli_zhongxu(root)
+    # zhongxu_list = copy.deepcopy(bianli_result)
+    # print qianxu_list
+    # print zhongxu_list
 
-    root1 = chongjian(qianxu_list, zhongxu_list)
-    bianli_ceng(root1)
+    # root1 = chongjian(qianxu_list, zhongxu_list)
+    # bianli_ceng(root1)
+
+    result_of_find_valued_path = []
+    nodes_in_path = []
+    find_valued_path(root, 319)
+    if result_of_find_valued_path:
+        print result_of_find_valued_path
+    else:
+        print None
 
 
