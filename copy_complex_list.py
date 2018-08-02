@@ -30,6 +30,7 @@ def analysis_siblings(siblings):
         former = i[0]
         latter = i[1]
         result.append((former, latter))
+    return result
 
 def find_valued_node(head, value):
     curr = head
@@ -66,12 +67,13 @@ def print_list(head):
         if curr.sibling:
             m = '%s -> %s' % (curr.value, curr.sibling.value)
             result.append(m)
+        curr = curr.next
     for i in result:
         print i
 
 def double_node(head):
     curr = head
-    while curr.next:
+    while curr:
         old_next = curr.next
         new_next = Complex_List_Node(curr.value)
         new_next.next = old_next
@@ -80,7 +82,7 @@ def double_node(head):
 
 def add_sibling_for_double(head):
     curr = head
-    while curr.next.next:
+    while curr:
         if curr.sibling:
             sibling = curr.sibling
             former = curr.next
@@ -116,8 +118,10 @@ if __name__ == '__main__':
         add_to_tail(head, i)
 
     add_sibling(head, ['ab', 'bd', 'eh', 'di', 'ie', 'gb'])
+    print 'the original list'
     print_list(head)
 
     
+    print 'the copyed list is'
     head1 = copy_list(head)
     print_list(head1)
