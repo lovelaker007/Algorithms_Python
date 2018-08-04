@@ -51,16 +51,24 @@ def bianli_qianxu(root):
     if node.right:
         bianli_qianxu(node.right)
 
-def bianli_zhongxu(root):
+def bianli_zhongxu_t(root, bianli_result):
     if not root:
         return None
 
     node = root
     if node.left:
-        bianli_zhongxu(node.left)
+        bianli_zhongxu_t(node.left, bianli_result)
     bianli_result.append(node.value)
     if node.right:
-        bianli_zhongxu(node.right)
+        bianli_zhongxu_t(node.right, bianli_result)
+
+def bianli_zhongxu(root):
+    if not root:
+        return None
+
+    bianli_result = []
+    bianli_zhongxu_t(root, bianli_result)
+    return bianli_result
 
 def bianli_houxu(root):
     if not root:
