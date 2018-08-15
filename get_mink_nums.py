@@ -58,14 +58,12 @@ def get2(array, k):
 
     for i in range(k):
         t.add(array[i])
-        t.bianli_ceng()
     for i in range(k, len(array)):
         if array[i] >= t.max():
             continue
         else:
             t.delete_max()
             t.add(array[i])
-            t.bianli_ceng()
     t.bianli_ceng()
 
 
