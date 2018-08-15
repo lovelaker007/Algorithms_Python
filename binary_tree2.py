@@ -6,123 +6,39 @@ class TreeNode():
         self.left = None
         self.right = None
 
-class Tree(object):
-    def __init__(self):
-        self.root = None
+def add(root, value):
+    if not root:
+        return TreeNode(value)
 
-    def add_t(self, root, value):
-        if not root:
-            return TreeNode(value)
-
-        if value < root.value:
-            root.left = self.add_t(root.left, value)
-        elif value > root.value:
-            root.right = self.add_t(root.right, value)
-        else:
-            pass
-        # 注意下面一条关键语句，在递归的回归过程中，被调用函数向调用函数返回当前的节点
-        # 当前的节点作为调用函数中的左子节点或右子节点
-        return root
-
-    def add(self, value):
-        if not self.root:
-            self.root = TreeNode(value)
-            return
-        self.root = self.add_t(self.root, value)
+    if value < root.value:
+        root.left = add(root.left, value)
+    elif value > root.value:
+        root.right = add(root.right, value)
+    # 注意下面一条关键语句，在递归的回归过程中，被调用函数向调用函数返回当前的节点
+    # 当前的节点作为调用函数中的左子节点或右子节点
+    return root
         
-    def build_from_list(self, array):
-        if not array:
-            return None
+def build_from_list(array):
+    if not array:
+        return None
+    root = TreeNode(array.pop(0))
 
-        self.root = TreeNode(array.pop(0))
-        while array:
-            value = array.pop(0)
-            self.add(value)
+    while array:
+        value = array.pop(0)
+        add(root, value)
+    return root
 
-    def bianli_ceng(self):
-        node_list = [self.root]
-        result = []
-        while node_list:
-            node = node_list.pop()
-            result.append(node.value)
-            if node.left:
-                node_list.insert(0, node.left)
-            if node.right:
-                node_list.insert(0, node.right)
-        print result
-    
-    def delete_min(self, root=None):
-        if not root:
-            if not self.root:
-                return
-            root = self.root
-        return self.delete_min_t(root)
-
-    def delete_min_t(self, root):
-        if not root.left:
-            return root.right
-        # pdb.set_trace()
-        root.left = self.delete_min_t(root.left)
-        # 下一行关键代码
-        return root
-
-    def delete_max(self, root=None):
-        if not root:
-            if not self.root:
-                return
-            root = self.root
-        return self.delete_max_t(root)
-
-    def delete_max_t(self, root):
-        if not root.right:
-            return root.left
-        root.right= self.delete_max_t(root.right)
-        # 下一行关键代码
-        return root
-
-    def min(self, root=None):
-        if not root:
-            if not self.root:
-                return
-            root = self.root
-        while root.left:
-            root = root.left
-        return root.value
-
-    def max(self, root=None):
-        if not root:
-            if not self.root:
-                return
-            root = self.root
-        while root.right:
-            root = root.right
-        return root.value
-
-    def delete(self, value):
-        if not self.root:
-            return 
-        self.root = self.delete_t(self.root, value)
-
-    def delete_t(self, root, value):
-        if not root:
-            print 'value %d not in tree' % (value, )
-            return
-        if value < root.value:
-            root.left = self.delete_t(root.left, value)
-        elif value > root.value:
-            root.right = self.delete_t(root.right, value)
-        else:
-            if not root.left and root.right:
-                return None
-            elif not root.left:
-                return root.right
-            elif not root.right:
-                return root.left
-            else:
-                right_min = self.min(root.right)
-                root.value = right_min
-                root.right = self.delete_min(root.right)
-        return root
+def bianli_ceng(root):
+    node_list = [root]
+    result = []
+    while node_list:
+        node = node_list.pop()
+        result.append(node.value)
+        if node.left:
+            node_list.insert(0, node.left)
+        if node.right:
+            node_list.insert(0, node.right)
+    print result
 
 def bianli_qianxu(root):
     if not root:
@@ -243,26 +159,33 @@ if __name__ == '__main__':
     # print list_for_tree
 
     import copy
-    import pdb
     list_for_tree = [50, 38, 91, 67, 59, 29, 98, 48, 91, 20, 85, 32, 87, 25, 70, 48, 52, 14, 41,\
                      100, 60, 64, 94, 49, 91, 7, 66, 99, 29, 99, 36]
     print list_for_tree
 
-    t = Tree()
-    t.build_from_list(list_for_tree)
-    t.bianli_ceng()
+    root = build_from_list(list_for_tree)
 
-    # print t.min()
-    # print t.max()
-    # t.delete_min()
-    # print t.min()
+    # bianli_ceng(root)
+    # print min_tree(root)
 
-    # t.delete(111)
-    # t.bianli_ceng()
-    t.delete(59)
-    t.bianli_ceng()
+    # bianli_result = []
+    # bianli_qianxu(root)
+    # qianxu_list = copy.deepcopy(bianli_result)
+    # bianli_result = []
+    # bianli_zhongxu(root)
+    # zhongxu_list = copy.deepcopy(bianli_result)
+    # print qianxu_list
+    # print zhongxu_list
 
-    print t.max()
-    t.delete_max()
-    print t.max()
+    # root1 = chongjian(qianxu_list, zhongxu_list)
+    # bianli_ceng(root1)
+
+    result_of_find_valued_path = []
+    nodes_in_path = []
+    find_valued_path(root, 319)
+    if result_of_find_valued_path:
+        print result_of_find_valued_path
+    else:
+        print None
+
 
