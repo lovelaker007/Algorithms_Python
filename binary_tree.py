@@ -55,8 +55,10 @@ class Tree(object):
         if not root:
             if not self.root:
                 return
-            root = self.root
-        return self.delete_min_t(root)
+            self.root = self.delete_min_t(self.root)
+        else:
+            root = self.delete_min_t(root)
+            return root
 
     def delete_min_t(self, root):
         if not root.left:
@@ -70,8 +72,10 @@ class Tree(object):
         if not root:
             if not self.root:
                 return
-            root = self.root
-        return self.delete_max_t(root)
+            self.root = self.delete_max_t(self.root)
+        else:
+            root = self.delete_max_t(root)
+            return root
 
     def delete_max_t(self, root):
         if not root.right:
@@ -121,6 +125,7 @@ class Tree(object):
             else:
                 right_min = self.min(root.right)
                 root.value = right_min
+                # self.delete_min(root.right)
                 root.right = self.delete_min(root.right)
         return root
 
