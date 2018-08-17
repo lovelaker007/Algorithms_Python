@@ -1,55 +1,99 @@
 # -*- coding: utf-8 -*-
 
 class Node(object):
-    @classmethod
-    def new(cls, values):
-        if isinstance(values, list):
-            head = Node(values[0])
-            values.pop(0)
-            for i in values:
-                head.add_to_tail(i)
-        else:
-            head = Node(values)
-        return head
-
     def __init__(self, value):
         super(Node, self).__init__()
         self.value = value
         self.next = None
 
-    def bianli(self):
-        s = []
-        curr = self 
-        while curr:
-            s.append(curr.value)
-            curr = curr.next
-        print s
+class Linked_List(object):
+    def __init__(self):
+        self.head = None
+        self.size = 0
 
-    def size(self):
-        size = 0
-        curr = self 
-        while curr:
-            size += 1
-            curr = curr.next
-        return size
+    def bulid_from_list(self, values):
+        if isinstance(values, list):
+            self.head = Node(values.pop(0))
+            self.size += 1
+            for i in values:
+                self.add_to_tail(i)
+        else:
+            self.head = Node(values)
+            self.size += 1
+        return
 
     def add_to_tail(self, value):
-        curr = self
+        if not self.head:
+            self.head = Node(value)
+            self.size += 1
+            return
+        curr = self.head
         while curr.next:
             curr = curr.next
         curr.next = Node(value)
+        self.size += 1
+
+    def add_at_sorted_position(self, value):
+        if not self.head:
+            self.head = Node(value)
+            self.size += 1
+            # print 'add %d' % (value)
+            return 
+        head = self.head
+        self.add_at_sorted_position_t(head, value)
+
+    def add_at_sorted_position_t(self, head, value):
+        if value == head.value:
+            return
+        if not head.next:
+            if value < head.value:
+                if head is self.head:
+                    self.head = Node(value)
+                    self.size += 1
+                    # print 'add %d' % (value)
+                    self.head.next = head
+                    return
+                else:
+                    pass
+            else:
+                head.next = Node(value)
+                self.size += 1
+                # print 'add %d' % (value)
+                return
+        else:
+            nnext = head.next
+            if nnext.value == value:
+                return
+            if value < head.value:
+                if head is self.head:
+                    self.head = Node(value)
+                    self.size += 1
+                    self.head.next = head
+                    # print 'add %d' % (value)
+                    return
+                else:
+                    # 程序逻辑，这种情况不可能发生
+                    pass
+            elif value > head.value and value < nnext.value:
+                head.next = Node(value)
+                head.next.next = nnext
+                self.size += 1
+                # print 'add %d' % (value)
+                return
+            else:
+                self.add_at_sorted_position_t(nnext, value)
+
 
     def delete(self, value):
-        if not value:
+        if not value or not self.head:
             return
         
-        prev, curr = None, self
+        prev, curr = None, self.head
         deleted = 0
         while curr:
             if curr.value == value:
-                if curr is self:
-                    curr = self.next
-                    self = self.next
+                if curr is self.head:
+                    curr = self.head = curr.next
                     deleted += 1
                 else:
                     prev.next = curr.next
@@ -62,8 +106,33 @@ class Node(object):
         if deleted == 0:
             print 'can not find %d in list' % (value, )
         else:
+            self.size -= deleted
             print 'delete %d nodes' % (deleted, )
-        return self
+
+    def bianli(self):
+        s = []
+        curr = self.head 
+        while curr:
+            s.append(curr.value)
+            curr = curr.next
+        print s
+    
+    # 使对象可以使用[]操作符
+    def __getitem__(self, index):
+        if not isinstance(index, int):
+            raise ValueError('index must be a int')
+        size = self.size
+        if index >= size or index < -size:
+            raise ValueError('index out of range')
+
+        if index < 0:
+            index = size+index
+        head = self.head
+        for _ in range(index):
+            head = head.next
+        return head.value
+
+
 
 def delete(head, value):
     if not value:
