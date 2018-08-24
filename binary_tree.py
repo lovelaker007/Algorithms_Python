@@ -140,11 +140,10 @@ def bianli_qianxu(root):
     if node.right:
         bianli_qianxu(node.right)
 
-def bianli_zhongxu_t(root, bianli_result):
-    if not root:
+def bianli_zhongxu_t(node, bianli_result):
+    if not node:
         return None
 
-    node = root
     if node.left:
         bianli_zhongxu_t(node.left, bianli_result)
     bianli_result.append(node.value)
@@ -155,8 +154,9 @@ def bianli_zhongxu(root):
     if not root:
         return None
 
+    node = root
     bianli_result = []
-    bianli_zhongxu_t(root, bianli_result)
+    bianli_zhongxu_t(node, bianli_result)
     return bianli_result
 
 def bianli_houxu(root):
@@ -238,6 +238,46 @@ def find_valued_path(tree, value):
             result_of_find_valued_path.append(copy.deepcopy(nodes_in_path))
         return nodes_in_path.pop()
     nodes_in_path.pop()
+
+def is_balanced(tree):
+    if not tree:
+        return True
+
+    if abs(depth_of_tree(tree.left)-depth_of_tree(tree.right)) > 1:
+        return False
+    else:
+        return True
+    return is_balanced(tree.left) and is_balanced(tree.right)
+
+depth_dict = {}
+def depth_of_tree(tree):
+    return depth_of_tree_t(tree, depth_dict)
+
+def depth_of_tree_t(tree, d):
+    if not tree:
+        return 0
+    if not tree in d:
+        d[tree] = max(depth_of_tree_t(tree.left, d), depth_of_tree_t(tree.right, d))
+    return d[tree]
+ 
+# 找中序遍历的顺序中，指定节点的下一个节点
+# 如果某个节点有右子树，下一个节点就是右子树的最左节点
+# 如果没有右子树，如果该节点是其父节点的左子节点，下一个节点就是父节点
+    # 如果是父节点的右子节点，需要在向上找父节点，直到某个节点是父节点的左子节点，或者某个节点没有父节点
+def find_next_node(node):
+    if not node:
+        return None
+
+    if node.right:
+        res = node.right
+        while res.left:
+            res = res.left
+            return res
+    while node.parent:
+        if node is node.parent.left:
+            return node.parent
+        node = node.parent
+    return None
 
 
 if __name__ == '__main__':
