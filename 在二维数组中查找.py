@@ -12,7 +12,7 @@ def find(array, number):
 
     m, n = 0, col_num-1
     result = None
-    while m < raw_num and n > 0:
+    while m < raw_num and n >= 0:
         if number > array[m][n]:
             m += 1
         elif number < array[m][n]:
@@ -56,4 +56,5 @@ if __name__ == '__main__':
          [6, 8, 11, 15]]
     find(matrix, 11)
     find(matrix, 30)
+    find(matrix, 6)
     find_times(matrix, 4)

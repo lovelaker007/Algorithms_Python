@@ -14,8 +14,9 @@ NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
 '''
 
 def min_in_rotate_array(rotate_array):
-    if len(rotate_array) == 0:
-        return 0
+    if not rotate_array:
+        return
+
     front, rear = 0, len(rotate_array) - 1
     midIndex = 0
     while rotate_array[front] >= rotate_array[rear]:

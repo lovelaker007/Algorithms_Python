@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 
 class Node(object):
     def __init__(self, value):
@@ -85,7 +85,7 @@ class Linked_List(object):
 
 
     def delete(self, value):
-        if not value or not self.head:
+        if value is None or not self.head:
             return
         
         prev, curr = None, self.head
@@ -93,7 +93,8 @@ class Linked_List(object):
         while curr:
             if curr.value == value:
                 if curr is self.head:
-                    curr = self.head = curr.next
+                    self.head = curr.next
+                    curr = curr.next
                     deleted += 1
                 else:
                     prev.next = curr.next
@@ -310,15 +311,25 @@ if __name__ == "__main__":
         print 'try to delete 150'
         h.delete(150)
 
-    head = create_list()
-    head.bianli()
+    l = [0, 34, 55, 80, 34, 47, 95, 36, 47, 72, 98, 61, 9, 75, 51]
+    print l
 
-    # 删除首节点
-    head = head.delete(head.value)
-    head.bianli()
+    linked_list = Linked_List()
+    linked_list.bulid_from_list(l)
+    linked_list.bianli()
 
-    head = delete(head, head.value)
-    head.bianli()
+    linked_list.delete(0)
+    linked_list.bianli()
+    linked_list.delete(47)
+    linked_list.bianli()
+    linked_list.delete(666)
+
+
+
+
+
+
+
 
 
         

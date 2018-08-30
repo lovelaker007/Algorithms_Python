@@ -39,8 +39,10 @@ class Tree(object):
             value = array.pop(0)
             self.add(value)
 
-    def bianli_ceng(self):
-        node_list = [self.root]
+    def bianli_ceng(self, root=None):
+        if not root:
+            root = self.root
+        node_list = [root]
         result = []
         while node_list:
             node = node_list.pop()
@@ -50,7 +52,45 @@ class Tree(object):
             if node.right:
                 node_list.insert(0, node.right)
         print result
-    
+
+    def bianli_qianxu(self, root=None):
+        if not root:
+            if not self.root:
+                return
+            root = self.root
+
+        result = []
+        self.bianli_qianxu_t(root, result)
+        print result
+
+    def bianli_qianxu_t(self, root, result):
+        if not root:
+            return
+        result.append(root.value)
+        if root.left:
+            self.bianli_qianxu_t(root.left, result)
+        if root.right:
+            self.bianli_qianxu_t(root.right, result)
+
+    def bianli_zhongxu(self, root=None):
+        if not root:
+            if not self.root:
+                return
+            root = self.root
+
+        result = []
+        self.bianli_zhongxu_t(root, result)
+        print result
+
+    def bianli_zhongxu_t(self, root, result):
+        if not root:
+            return
+        if root.left:
+            self.bianli_zhongxu_t(root.left, result)
+        result.append(root.value)
+        if root.right:
+            self.bianli_zhongxu_t(root.right, result)
+   
     def delete_min(self, root=None):
         if not root:
             if not self.root:
@@ -129,47 +169,6 @@ class Tree(object):
                 root.right = self.delete_min(root.right)
         return root
 
-def bianli_qianxu(root):
-    if not root:
-        return None
-
-    node = root
-    bianli_result.append(node.value)
-    if node.left:
-        bianli_qianxu(node.left)
-    if node.right:
-        bianli_qianxu(node.right)
-
-def bianli_zhongxu_t(node, bianli_result):
-    if not node:
-        return None
-
-    if node.left:
-        bianli_zhongxu_t(node.left, bianli_result)
-    bianli_result.append(node.value)
-    if node.right:
-        bianli_zhongxu_t(node.right, bianli_result)
-
-def bianli_zhongxu(root):
-    if not root:
-        return None
-
-    node = root
-    bianli_result = []
-    bianli_zhongxu_t(node, bianli_result)
-    return bianli_result
-
-def bianli_houxu(root):
-    if not root:
-        return None
-
-    node = root
-    if node.left:
-        bianli_houxu(node.left)
-    if node.right:
-        bianli_houxu(node.right)
-    bianli_result.append(node.value)
-
 def chongjian(qianxu_list, zhongxu_list):
     if (not qianxu_list) or (not zhongxu_list):
         return None
@@ -180,12 +179,6 @@ def chongjian(qianxu_list, zhongxu_list):
     root.left = chongjian(qianxu_list[1: pos+1], zhongxu_list[0: pos])
     root.right = chongjian(qianxu_list[pos+1: ], zhongxu_list[pos+1: ])
     return root
-
-def min_tree(root):
-    node = root
-    while node.left:
-        node = node.left
-    return node.value
 
 # 判断treeb是不是treea的子树
 def is_subtree(treea, treeb):
@@ -296,6 +289,11 @@ if __name__ == '__main__':
     t = Tree()
     t.build_from_list(list_for_tree)
     t.bianli_ceng()
+    # [50, 38, 91, 29, 48, 67, 98, 20, 32, 41, 49, 59, 85, 94, 100, 14, 25, 36, 52, 60, 70, 87, 99, 7, 64, 66]
+    t.bianli_qianxu()
+    # [50, 38, 29, 20, 14, 7, 25, 32, 36, 48, 41, 49, 91, 67, 59, 52, 60, 64, 66, 85, 70, 87, 98, 94, 100, 99]
+    t.bianli_zhongxu()
+    # [7, 14, 20, 25, 29, 32, 36, 38, 41, 48, 49, 50, 52, 59, 60, 64, 66, 67, 70, 85, 87, 91, 94, 98, 99, 100] 
 
     # print t.min()
     # print t.max()
@@ -304,10 +302,10 @@ if __name__ == '__main__':
 
     # t.delete(111)
     # t.bianli_ceng()
-    t.delete(59)
-    t.bianli_ceng()
+#     t.delete(59)
+    # t.bianli_ceng()
 
-    print t.max()
-    t.delete_max()
-    print t.max()
+    # print t.max()
+    # t.delete_max()
+    # print t.max()
 
