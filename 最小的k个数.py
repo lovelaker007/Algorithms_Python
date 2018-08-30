@@ -6,7 +6,8 @@
 
 '''
 方法一
-
+一个数将数组分组，比他小的位于他左边，比他大的位于右边
+如果这个数的位置为k，则这个数左边的k个数就是要找的最小的k个数
 '''
 def partition(array, begin, end):
     key = array[end]

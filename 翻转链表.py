@@ -17,6 +17,20 @@ def reverse_list(head):
     curr.bianli()
     return curr
 
+def reverse_list2(head):
+    if not head:
+        return
+
+    prev, curr = None, head
+    while True:
+        nnext = curr.next
+        curr.next = prev
+        if nnext:
+            curr = nnext
+            prev = curr
+        else:
+            return curr
+
 
 if __name__ == '__main__':
     import random

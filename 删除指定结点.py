@@ -14,10 +14,6 @@ def delete_node(head, node_to_delete):
     if not head or not node_to_delete:
         return
 
-    # 要删除的节点为头节点时，需要特殊考虑，因为删除后，头节点指向了下一个节点
-    if head is node_to_delete:
-        head = head.next
-
     node_next = node_to_delete.next 
     if node_next:
         node_to_delete.value = node_next.value
@@ -25,31 +21,16 @@ def delete_node(head, node_to_delete):
         del node_next
     # 要删除节点没有下一个节点，还是要遍历链表，找到删除节点的前一个节点
     else:
-        prev = head
-        while not prev.next is node_to_delete:
-            prev = prev.next
-        prev.next = node_to_delete.next
+        # 如果待删除节点没有前一个节点，即待删除节点就是头节点
+        if head is node_to_delete:
+            head = node_to_delete = None
+        else:
+            prev = head
+            while not prev.next is node_to_delete:
+                prev = prev.next
+            prev.next = node_to_delete.next
     
 
 if __name__ == '__main__':
-    l = list(range(10))
-    head = Node.new(l)
-    head.bianli()
-
-    node_to_delete1 = node_to_delete2 = node_to_delete3 = head
-    for i in range(5):
-        # node_to_delete1为链表中间任意一个节点
-        node_to_delete1 = node_to_delete1.next
-
-    for i in range(9):
-        # node_to_delete3为最后一个节点
-        node_to_delete3 = node_to_delete3.next
-
-    delete_node(head, node_to_delete1)
-    head.bianli()
-    delete_node(head, node_to_delete2)
-    head.bianli()
-    delete_node(head, node_to_delete3)
-    head.bianli()  
 
 

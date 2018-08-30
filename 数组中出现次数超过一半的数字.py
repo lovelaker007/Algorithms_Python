@@ -24,10 +24,17 @@ def partition(array, begin, end):
     array[m], array[end] = array[end], array[m]
     return m
 
+# 谨慎检查找到的结果出现的次数是否超过数组大小的一半
+def check_more_than_half(array, result):
+    pass
+
 def find1(array):
+    if not array:
+        return None
+
     begin = 0
     end = len(array)-1
-    while begin < end:
+    while begin <= end:
         pos = partition(array, begin, end)
         if pos < len(array)/2:
             begin = pos+1
@@ -60,6 +67,23 @@ def find2(array):
             times -= 1
     return num
 
+# 上面函数的改进版本
+def find3(array):
+    if not array:
+        return None
+
+    result = None
+    time = 0
+    for i in range(len(array)):
+        if time == 0:
+            result = array[i]
+            time = 1
+            continue
+        if array[i] == result:
+            time += 1
+        else:
+            time -= 1
+    return result
 
 
 if __name__ == '__main__':
@@ -73,4 +97,5 @@ if __name__ == '__main__':
     # print 'after partition: %s' % (l, )
 
     l = [1,2,3,2,2,2,5,2,4,2,6,2,2,9]
-    print find2(l)
+    print find3(l)
+    print find3([3])

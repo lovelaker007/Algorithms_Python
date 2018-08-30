@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*;
 
 '''
 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分
@@ -11,9 +11,9 @@ def switch(array):
 
     begin, end = 0, len(array)-1
     while True:
-        while array[begin] & 0x1:
+        while begin <= len(array)-1 and array[begin] & 0x1:
             begin += 1
-        while not array[end] & 0x1:
+        while end >= 0 and not array[end] & 0x1:
             end -= 1
 
         if begin < end:

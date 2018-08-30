@@ -44,8 +44,28 @@ def print_digital_list(digital_list):
     for i in xrange(len(digital_list)):
         if digital_list[i] != '0':
             break
-    print ''.join(digital_list[i:])
+    if i == len(digital_list)-1:
+        pass
+    else:
+        print ''.join(digital_list[i:])
+
+def print_to_maxn_digui(n):
+    digital_list = ['0'] * n
+    shuzi_list = []
+    for i in '0123456789':
+        shuzi_list.append(i)
+    print_to_maxn_digui_t(digital_list, 0, shuzi_list)
+
+def print_to_maxn_digui_t(digital_list, pos, shuzi_list):
+    if pos >= len(digital_list):
+        print_digital_list(digital_list)
+        return
+    for i in range(10):
+        digital_list[pos] = shuzi_list[i]
+        print_to_maxn_digui_t(digital_list, pos+1, shuzi_list)
+
 
 
 if __name__ == '__main__':
-    print_to_maxn(2)
+    # print_to_maxn(2)
+    print_to_maxn_digui(2)
