@@ -58,6 +58,9 @@ def func3(num):
 '''
 
 def func5(num):
+    if not num:
+        return 0
+
     r = 0
     weishu = 0
     # 当前位之后的数值，用于计算当前位为1时，当前为出现1的次数
