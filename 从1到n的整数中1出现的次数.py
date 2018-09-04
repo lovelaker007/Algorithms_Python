@@ -60,6 +60,7 @@ def func3(num):
 def func5(num):
     r = 0
     weishu = 0
+    # 当前位之后的数值，用于计算当前位为1时，当前为出现1的次数
     houmian = 0
     while num:
         # 当前位的数值
@@ -68,7 +69,7 @@ def func5(num):
         num = num/10
         # 已经处理的位数
         weishu += 1
-        # 所有完成的循环中，当前位为1的次数
+        # 所有完整的循环中，当前位为1的次数
         r_xunhuan = num*(10**(weishu-1))
         # 计算未完成的循环，当前位为1的次数
         if m == 0:
@@ -82,10 +83,9 @@ def func5(num):
         houmian = 10**(weishu-1)*m + houmian
     return r
 
-
             
 if __name__ == '__main__':
-    l = [50, 667, 1000, 8994, 10000, 999]
+    l = [1, 50, 667, 1000, 8994, 10000, 999]
     for i in l:
         print '%d\t%d' % (func1(i), func5(i))
 

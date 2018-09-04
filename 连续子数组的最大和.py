@@ -5,9 +5,14 @@
 每个子数组都有一个和。求所有子数组的和的最大值
 '''
 
+# 设定该变量的作用是：在输入无效和真的最大子数组和为0的情况下，返回的都是0，该变量辨明这两种情况
+invalid_input = True
 def find_max_subarray(array):
+    global invalid_input
     if not array:
-        return None
+        invalid_input = True
+        return 0
+
     cur_max = 0
     ori_max = -0xffffffff
     for i in range(len(array)):
