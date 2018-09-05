@@ -91,11 +91,8 @@ def get_ugly_num3(k):
         next_nums.append(results[poses[2]]*5)
         next_num = min(next_nums)
 
-        if not next_num in results:
-            results.append(next_num)
-            poses[next_nums.index(next_num)] += 1
-        else:
-            poses[next_nums.index(next_num)] += 1
+        results.append(next_num)
+        poses[next_nums.index(next_num)] += 1
     return (results, results[-1])
 
 
