@@ -80,16 +80,14 @@ class Solution(object):
             self.curr, self.next = self.next, self.curr
          
         for i in range(n, 6*n+1):
-            print '点数%d：次数%d' % (n, self.curr[i])
+            print '点数%d：次数%d' % (i, self.curr[i])
 
             
 
 if __name__ == '__main__':
     s = Solution()
-    for i in range(1, 6):
-        print '骰子数：%d' % (i, )
-        s.func1(i)
-        s.func2(i)
+    s.func1(5)
+    s.func2(5)
 
 
 
