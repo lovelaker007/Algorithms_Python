@@ -134,7 +134,6 @@ class Linked_List(object):
         return head.value
 
 
-
 def delete(head, value):
     if not value:
         return
@@ -195,22 +194,7 @@ def find_kth_to_end(head, k):
     return prev.value
 
 def delete_duplication(head):
-    values = []
-    deleted = 0
-    prev, curr = None, head 
-
-    while curr:
-        if not curr.value in values:
-            values.append(curr.value)
-            prev = curr
-            curr = curr.next
-        # 删除重复节点的时候, 不用考虑要删除的节点是链表的第一个节点
-        else:
-            prev.next = curr.next
-            curr = curr.next
-            deleted += 1
-    print 'delete %d nodes, now the list is:' % (deleted, )
-    head.bianli()
+    pass
 
 def find_first_same_node(heada, headb):
     sizea = heada.size()
@@ -256,19 +240,30 @@ def merge_sorted_list(heada, headb):
 
 # 找到链表中环的入口
 # 遍历链表，如果发现某个node和之前遍历过的node完全一样(python中的is), 就发现了环
-def entry_node_of_loop(head):
-    if head is None:
-        return None
+class SolutioFindEntranceofCycle
+    def find_entrance_of_cycle(self, after):
+        if not head or not head.next:
+            return None
 
-    node_list = []
-    curr = head
-    while curr:
-        if not curr in node_list:
-            # 注意是将curr本身放到队列中，不是curr.value
-            node_list.append(curr)
-            curr = curr.next
-        else:
-            return curr
+        quick = slow = head
+        while quick.next.next:
+            quick = quick.next.next
+            slow = slow.next
+            if quick is slow:
+                len_cycle = 0
+                # 求环的长度
+                while not quick.next is slow:
+                    quick = quick.next
+                    len_cycle += 1
+                # 求起始点
+                quick = slow = head
+                for _ in range(len_cycle+1):
+                    quick = quick.next
+                while not quick.next is slow:
+                    slow = slow.next
+                    quick = quick.next
+                return slow
+        return None
 
 # 入栈的序列sin，出栈的序列sout
 def is_pop_order(sin, sout):

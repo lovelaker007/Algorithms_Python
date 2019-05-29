@@ -2,8 +2,20 @@
 
 '''
 复制复杂链表
-
 复杂链表每个节点有两个指针next和sibling，next指向下一个节点，sibling指向任意的节点(可以为空)
+
+复制出来的链表中，节点的next指针已经解决，难点在于设置节点的sibling指针
+方法一
+    原链表中，假设节点a的sibling为b，需要从头遍历链表，找到节点b到头节点的距离，
+    再根据这个距离在复制链表中找到b'
+方法二
+    空间换时间
+    建立哈希表，存放的是原链表节点a和复制链表节点a'的对应关系，此时b和b'也对应起来
+    由a的sibling为b可以找到a'的sibling为b'
+方法三
+    在原链表上直接复制，节点a的复制节点a'位于a的后面
+    原链表上a指向b，由于新链表对应的节点a'，b'就在a，b之后，很容易设置a'到b'
+    将新链表从原链表上脱离出来
 '''
 class Complex_List_Node():
     def __init__(self, value):
@@ -121,7 +133,6 @@ if __name__ == '__main__':
     print 'the original list'
     print_list(head)
 
-    
     print 'the copyed list is'
     head1 = copy_list(head)
     print_list(head1)

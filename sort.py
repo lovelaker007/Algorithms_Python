@@ -2,7 +2,6 @@
 import random
 
 random_nums = [35, 34, 82, 59, 74, 13, 14, 40, 14, 84, 54, 21, 7, 75, 39, 62, 23, 87, 66, 12, 66]
-# random_nums = [35, 34, 82, 59, 74, 13, 14, 40, 14]
 print 'before sort: %s' % (random_nums, )
 
 # 选择排序，稳定的排序算法。第一次循环找到最小的数，第二次循环找到第二小的，以此类推
@@ -16,6 +15,14 @@ def sort(nums):
                 min = n
         nums[i], nums[min] = nums[min], nums[i]
     print 'nums after sort: %s' % (random_nums, )
+    
+def sort2(nums):
+    for i in range(len(nums)-1):
+        for m in range(i+1, len(nums)):
+            if nums[m] < nums[i]:
+                nums[i], nums[m] = nums[m], nums[i]
+    print nums
+
 
 # 最坏情况下，需要 n的平方/2 次比较，n的平方/2 次交换
 # 平均情况下，需要 n的平方/4 次比较，n的平方/4 次交换
@@ -99,10 +106,8 @@ def merge(start, mid, end):
 def guibin_sort():
     step = 1
     while step <= len(random_nums):
-        print 'step %d' % (step, )
         for i in list(range(len(random_nums)))[:: step*2]:
             merge(i, i+step-1, min(i+2*step-1, len(random_nums)-1))
-        print random_nums
         step = 2*step
     print 'nums after guibin: %s' % (random_nums, )
 
@@ -209,26 +214,6 @@ def partition2(array, l, r):
     array[i], array[l] = array[l], array[i]
     return i
 
-# 快速排序的一种优化, 比较时将和key相等的元素聚集在一起, 分割时不再对其分割
-def quick_sort3(array, left, right):
-    if left >= right:
-        return
-    lt, gt = left, right
-    i = left+1
-    key = array[left]
-    while i <= gt:
-        if array[i] > key:
-            array[i], array[gt] = array[gt], array[i]
-            gt -= 1
-        elif array[i] < key:
-            array[i], array[lt] = array[lt], array[i]
-            lt += 1
-            i += 1
-        else:
-            i += 1
-    quick_sort3(array, left, lt-1)
-    quick_sort3(array, gt+1, right)
-
 # 用栈实现，递归转换为迭代
 def quick_sort_stack(array, l, r):
     if l >= r:
@@ -276,11 +261,12 @@ if __name__ == "__main__":
 #   quick_sort_stack(random_nums, 0, len(random_nums)-1)
 #   print 'after sort: %s' % (random_nums, )
 
-    l = []
-    for i in range(100):
-        l.append(random.randint(0, 150))
+#     l = []
+    # for i in range(100):
+        # l.append(random.randint(0, 150))
 
-    print l
-    quick_sort2(l, 0, 99)
-    print l
+    # print l
+    # quick_sort2(l, 0, 99)
+#     print l
 
+    sort2(random_nums)

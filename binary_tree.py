@@ -169,6 +169,7 @@ class Tree(object):
                 root.right = self.delete_min(root.right)
         return root
 
+# 重建二叉树
 def chongjian(qianxu_list, zhongxu_list):
     if (not qianxu_list) or (not zhongxu_list):
         return None
@@ -182,26 +183,28 @@ def chongjian(qianxu_list, zhongxu_list):
 
 # 判断treeb是不是treea的子树
 def is_subtree(treea, treeb):
+    if not treea or not treeb:
+        return False
+
     result = False
-    if treea and treeb:
-        if treea.value == treeb.value:
-            result = is_equal_tree(treea, treeb)
-        if not result:
-            result = is_subtree(treea.left, treeb)
-        if not result:
-            result = is_subtree(treea.right, treeb)
+    if treea.value == treeb.value:
+        result = is_equal_tree(treea, treeb)
+    if not result:
+        result = is_subtree(treea.left, treeb)
+    if not result:
+        result = is_subtree(treea.right, treeb)
     return result
 
-# 递归判断两个二叉树是否完全相同
+# 判断两个二叉树是否完全相同
 def is_equal_tree(treea, treeb):
-    if (not treea) and (not treeb):
+    if not treeb:
+        # treeb为空，无论treea是否为空，都可以表示b是a的子树
         return True
-    if (treea is None and treeb is not None) or (treea is not None and treeb is None) or \
-        (treea.value != treeb.value):
+    if not treea:
+        # 运行到此处，隐含的条件为treeb不为空
         return False
-    # 上面的条件能否改写成如下
-    # if not treea or not treeb or treea.value != treeb.value:
-        # return False
+    if treea.value != treeb.value:
+        return False
     return is_equal_tree(treea.left, treeb.left) and \
         is_equal_tree(treea.right, treeb.right) 
 
@@ -216,43 +219,131 @@ def mirror_of_tree(treea):
         treeb.left = mirror_of_tree(treea.right)
     return treeb
 
-# 求和为某值的路径，路径是指根节点到某一叶子节点所经过的所有节点
-def find_valued_path(tree, value):
-    if tree is None:
-        return None
-
-    nodes_in_path.append(tree.value) 
-    if tree.left:
-        find_valued_path(tree.left, value)
-    if tree.right:
-        find_valued_path(tree.right, value)
-    if not tree.left and not tree.right:
-        if sum(nodes_in_path) == value:
-            result_of_find_valued_path.append(copy.deepcopy(nodes_in_path))
-        return nodes_in_path.pop()
-    nodes_in_path.pop()
-
+# 是否是平衡树
 def is_balanced(tree):
     if not tree:
         return True
 
     if abs(depth_of_tree(tree.left)-depth_of_tree(tree.right)) > 1:
         return False
-    else:
-        return True
     return is_balanced(tree.left) and is_balanced(tree.right)
 
-depth_dict = {}
-def depth_of_tree(tree):
-    return depth_of_tree_t(tree, depth_dict)
+# 是否是对称二叉树
+# 一棵树和其镜像二叉树完全一样就是对称二叉树
+class SolutionIsSymmetrical():
+    def is_symmetrical(self, tree):
+        if not tree:
+            return True
+        return self.is_symmetrical_t(tree.left, tree.right)
 
-def depth_of_tree_t(tree, d):
-    if not tree:
-        return 0
-    if not tree in d:
-        d[tree] = max(depth_of_tree_t(tree.left, d), depth_of_tree_t(tree.right, d))
-    return d[tree]
- 
+    def is_symmetrical_t(self, left, right):
+        if not left and not right:
+            return True
+        if not left or not right:
+            return False
+        if left.value == right.value:
+            return self.is_symmetrical_t(left.right, right.left) and \
+                    self.is_symmetrical_t(left.left, right.right)
+        return False
+
+# 求和为某值的路径，路径是指根节点到某一叶子节点所经过的所有节点
+class SolutionFindValuedPath():
+    def __init__(self):
+        self.value_in_path = []
+        self.results = []
+    
+    def find_valued_path(self, tree, value):
+        if tree is None:
+            return None
+
+        self.value_in_path.append(tree.value) 
+        if tree.left:
+            self.find_valued_path(tree.left, value)
+        if tree.right:
+            self.find_valued_path(tree.right, value)
+        if not tree.left and not tree.right:
+            if sum(nodes_in_path) == value:
+                self.results.append(copy.deepcopy(nodes_in_path))
+        self.value_in_path.pop()
+
+# 二叉树的深度
+class SolutionDepthOfTree():
+    def __init__(self):
+        self.depth_dict = {}
+        # 下面的属性用于按层遍历求深度
+        self.depth = None
+        self.nodes_of_level = []
+        self.last_of_level = None
+
+    # 递归方法
+    def depth_of_tree1(self, tree):
+        if not tree:
+            return 0
+        
+        if not tree in self.depth_dict:
+            left = self.depth_of_tree1(tree.left)
+            right = self.depth_of_tree1(tree.right)
+            self.depth_dict[tree] = max(left, right)+1
+        return self.depth_dict[tree]
+    
+    # 非递归方法，按层遍历
+    def depth_of_tree2(self, tree):
+        if not tree:
+            self.depth = 0
+        
+        self.nodes_of_level.append(tree) 
+        self.last_of_level = tree
+        while self.nodes_of_level:
+            current = self.nodes_of_level.pop(0)
+            if current.left:
+                self.nodes_of_level.append(current.left)
+            if current.right:
+                self.nodes_of_level.append(current.right)
+            if current is self.last_of_level:
+                self.depth += 1
+                if self.nodes_of_level:
+                    self.last_of_level = self.nodes_of_level[-1]
+        return self.depth
+
+# 按层打印二叉树
+class SolutionPrintLevel():
+    def __init__(self):
+        # 用二维数组表示二叉树所有的节点值，数组的元素也是一个数组，表示一层中的节点值
+        self.result = []
+        # 一层节点的值
+        self.tmp = []
+        # 按层遍历树，辅助存储节点的队列
+        self.nodes_of_level = []
+        # 每层最后一个节点
+        self.last_of_level = None
+    
+    def print_level_t(self, tree):
+        if not tree:
+            return
+        
+        self.nodes_of_level.append(tree)
+        self.last_of_level = tree
+        while self.nodes_of_level:
+            current = self.nodes_of_level.pop(0)
+            self.tmp.append(current.value)
+            if current.left:
+                self.nodes_of_level.append(current.left)
+            if current.right:
+                self.nodes_of_level.append(current.right)
+            if current is self.last_of_level:
+                self.result.append(copy.deepcopy(self.tmp))
+                print self.tmp
+                self.tmp = []
+                if self.nodes_of_level:
+                    self.last_of_level = self.nodes_of_level[-1]           
+
+    
+    def print_level(self, tree):
+        self.print_level_t(tree)
+        for i in self.result:
+            print i
+
+
 # 找中序遍历的顺序中，指定节点的下一个节点
 # 如果某个节点有右子树，下一个节点就是右子树的最左节点
 # 如果没有右子树，如果该节点是其父节点的左子节点，下一个节点就是父节点
@@ -274,12 +365,6 @@ def find_next_node(node):
 
 
 if __name__ == '__main__':
-    # list_for_tree = [50, ]
-    # import random
-    # for i in range(30):
-        # list_for_tree.append(random.randint(0, 100))
-    # print list_for_tree
-
     import copy
     import pdb
     list_for_tree = [50, 38, 91, 67, 59, 29, 98, 48, 91, 20, 85, 32, 87, 25, 70, 48, 52, 14, 41,\
@@ -295,17 +380,8 @@ if __name__ == '__main__':
     t.bianli_zhongxu()
     # [7, 14, 20, 25, 29, 32, 36, 38, 41, 48, 49, 50, 52, 59, 60, 64, 66, 67, 70, 85, 87, 91, 94, 98, 99, 100] 
 
-    # print t.min()
-    # print t.max()
-    # t.delete_min()
-    # print t.min()
+    s1 = SolutionPrintLevel()
+    s2 = SolutionDepthOfTree()
+    s3 = SolutionFindValuedPath()
 
-    # t.delete(111)
-    # t.bianli_ceng()
-#     t.delete(59)
-    # t.bianli_ceng()
-
-    # print t.max()
-    # t.delete_max()
-    # print t.max()
-
+    s1.print_level(t.root)
