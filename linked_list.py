@@ -1,3 +1,4 @@
+# coding: utf-8
 
 
 class Node(object):
@@ -5,6 +6,7 @@ class Node(object):
         super(Node, self).__init__()
         self.value = value
         self.next = None
+
 
 class Linked_List(object):
     def __init__(self):
@@ -38,7 +40,7 @@ class Linked_List(object):
             self.head = Node(value)
             self.size += 1
             # print 'add %d' % (value)
-            return 
+            return
         head = self.head
         self.add_at_sorted_position_t(head, value)
 
@@ -83,11 +85,10 @@ class Linked_List(object):
             else:
                 self.add_at_sorted_position_t(nnext, value)
 
-
     def delete(self, value):
         if value is None or not self.head:
             return
-        
+
         prev, curr = None, self.head
         deleted = 0
         while curr:
@@ -103,21 +104,21 @@ class Linked_List(object):
             else:
                 prev = curr
                 curr = curr.next
-            
+
         if deleted == 0:
             print 'can not find %d in list' % (value, )
         else:
             self.size -= deleted
-            print 'delete %d nodes' % (deleted, )
+            print 'delete %d for %d nodes' % (value, deleted)
 
     def bianli(self):
         s = []
-        curr = self.head 
+        curr = self.head
         while curr:
             s.append(curr.value)
             curr = curr.next
         print s
-    
+
     # 使对象可以使用[]操作符
     def __getitem__(self, index):
         if not isinstance(index, int):
@@ -137,8 +138,8 @@ class Linked_List(object):
 def delete(head, value):
     if not value:
         return
-    
-    prev, curr = None, head 
+
+    prev, curr = None, head
     deleted = 0
     while curr:
         if curr.value == value:
@@ -153,27 +154,38 @@ def delete(head, value):
         else:
             prev = curr
             curr = curr.next
-        
+
     if deleted == 0:
         print 'can not find %d in list' % (value, )
     else:
-        print 'delete %d nodes' % (deleted, )
+        print 'delete %d for %d nodes' % (value, deleted)
     return head
+
+
+def bianli(head):
+    result = []
+    while head:
+        result.append(head.value)
+        head = head.next
+    print result
+
 
 def reverse_list(head):
     if not head:
         return None
-        
+
     prev = next_node = None
     curr = head
     while curr.next:
         next_node = curr.next
-        head.next = prev
-        prev = curr 
+        curr.next = prev
+        prev = curr
         curr = next_node
+    curr.next = prev
 
-    curr.bianli()
+    bianli(curr)
     return curr
+
 
 # 倒数第k个, 最后一个为倒数第1个
 def find_kth_to_end(head, k):
@@ -193,13 +205,15 @@ def find_kth_to_end(head, k):
         prev = prev.next
     return prev.value
 
+
 def delete_duplication(head):
     pass
+
 
 def find_first_same_node(heada, headb):
     sizea = heada.size()
     sizeb = headb.size()
-    
+
     if sizea > sizeb:
         diff = sizea - sizeb
         long_list = heada
@@ -214,8 +228,9 @@ def find_first_same_node(heada, headb):
     while long_list:
         if long_list is short_list:
             print 'find first node, value is %d' % long_list.value
-            break;
+            break
     print 'two list do not have same node'
+
 
 def merge_sorted_list(heada, headb):
     ha, hb = heada, headb
@@ -238,9 +253,10 @@ def merge_sorted_list(heada, headb):
 
     return result
 
+
 # 找到链表中环的入口
 # 遍历链表，如果发现某个node和之前遍历过的node完全一样(python中的is), 就发现了环
-class SolutioFindEntranceofCycle
+class SolutioFindEntranceofCycle:
     def find_entrance_of_cycle(self, after):
         if not head or not head.next:
             return None
@@ -264,6 +280,7 @@ class SolutioFindEntranceofCycle
                     quick = quick.next
                 return slow
         return None
+
 
 # 入栈的序列sin，出栈的序列sout
 def is_pop_order(sin, sout):
@@ -313,11 +330,15 @@ if __name__ == "__main__":
     linked_list.bulid_from_list(l)
     linked_list.bianli()
 
-    linked_list.delete(0)
-    linked_list.bianli()
-    linked_list.delete(47)
-    linked_list.bianli()
-    linked_list.delete(666)
+    # linked_list.delete(0)
+    # linked_list.bianli()
+    # linked_list.delete(47)
+    # linked_list.bianli()
+    # linked_list.delete(666)
+
+    h = linked_list.head
+    bianli(h)
+    reverse_list(h)
 
 
 

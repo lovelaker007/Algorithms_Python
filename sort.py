@@ -4,6 +4,7 @@ import random
 random_nums = [35, 34, 82, 59, 74, 13, 14, 40, 14, 84, 54, 21, 7, 75, 39, 62, 23, 87, 66, 12, 66]
 print 'before sort: %s' % (random_nums, )
 
+
 # 选择排序，稳定的排序算法。第一次循环找到最小的数，第二次循环找到第二小的，以此类推
 # 花费的时间和排序数组的输入没有关系，时间复杂度：n的平方
 # 每一次大循环，确定剩余数组中的最小值，再将最小值和数组前一个位置交换。一次大循环只发生一次交换
@@ -24,21 +25,31 @@ def sort2(nums):
     print nums
 
 
-# 最坏情况下，需要 n的平方/2 次比较，n的平方/2 次交换
-# 平均情况下，需要 n的平方/4 次比较，n的平方/4 次交换
-# 冒泡排序对于部分有序的数组比选择排序高效
+# 在一次大循环中，依次比较相邻的两个数，将小数放在前面，大数放在后面。
+    # 即在第一趟：首先比较第1个和第2个数，将小数放前，大数放后。
+    # 然后比较第2个数和第3个数，将小数放前，大数放后，如此继续，直至比较最后两个数。
+    # 这样一次大循环后，最后一个数是最大的
+# 如果某次大循环，没有发生一次交换，说明这次大循环排序的数字有序，整个排序完成
+# 每次大循环中，记录最后一次发生交换的位置pos，下次大循环的只需排序pos前面的数字即可
 def maopao_sort(nums):
-    for i in range(1, len(nums)):
-        m = i
-        while m >= 1:
-            n = m - 1
-            if nums[m] < nums[n]:
-                nums[m], nums[n] = nums[n], nums[m]
-            else:
-                break
-            m -= 1
-    print 'nums after sort: %s' % (random_nums, )
+    if not nums or len(nums)== 1:
+        return
 
+    # 在last_pos之前的数字需要排序
+    last_pos = len(nums)-1
+    for m in range(last_pos, 0, -1):
+        # 记录交换次数
+        swift_times = 0
+        for n in range(m):
+            if nums[n+1] < nums[n]:
+                nums[n+1], nums[n] = nums[n], nums[n+1]
+                swift_times += 1
+                last_pos = n
+        if swift_times == 0:
+            break
+
+
+# 插入排序
 def insert_sort(nums):
     if not nums or len(nums) == 1:
         return
@@ -48,6 +59,7 @@ def insert_sort(nums):
                 nums[m-1], nums[m] = nums[m], nums[m-1]
             else:
                 break
+
 
 # 希尔排序的复杂度很难估计，但是比冒泡排序效率高
 def xier_sort(nums):
@@ -118,6 +130,7 @@ def guibin_digui_sort(start, end):
     guibin_digui_sort(start, mid)
     guibin_digui_sort(mid+1, end)
     merge(start, mid, end)
+
 
 import pdb
 def quick_sort(array, left, right):
@@ -258,15 +271,7 @@ if __name__ == "__main__":
     # quick_sort2(random_nums, 0, len(random_nums)-1)
     # print 'after sort2: %s' % (random_nums, )
 
-#   quick_sort_stack(random_nums, 0, len(random_nums)-1)
-#   print 'after sort: %s' % (random_nums, )
 
-#     l = []
-    # for i in range(100):
-        # l.append(random.randint(0, 150))
+    maopao_sort(random_nums)
+    print 'after maopao_sort: %s' % (random_nums, )
 
-    # print l
-    # quick_sort2(l, 0, 99)
-#     print l
-
-    sort2(random_nums)
