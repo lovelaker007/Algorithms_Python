@@ -170,6 +170,7 @@ def bianli(head):
     print result
 
 
+# 倒置链表
 def reverse_list(head):
     if not head:
         return None
@@ -185,6 +186,19 @@ def reverse_list(head):
 
     bianli(curr)
     return curr
+
+
+# 成对倒置
+def swap_pairs(head):
+    if not head or not head.next:
+        return head
+
+    tmp = head.next
+    head.next = tmp.next
+    tmp.next = head
+    head.next = swap_pairs(head.next)
+
+    return tmp
 
 
 # 倒数第k个, 最后一个为倒数第1个
@@ -257,7 +271,7 @@ def merge_sorted_list(heada, headb):
 # 找到链表中环的入口
 # 遍历链表，如果发现某个node和之前遍历过的node完全一样(python中的is), 就发现了环
 class SolutioFindEntranceofCycle:
-    def find_entrance_of_cycle(self, after):
+    def find_entrance_of_cycle(self, head):
         if not head or not head.next:
             return None
 
@@ -284,7 +298,7 @@ class SolutioFindEntranceofCycle:
 
 # 入栈的序列sin，出栈的序列sout
 def is_pop_order(sin, sout):
-    s = [] 
+    s = []
     pos = 0
 
     for v in sin:
@@ -297,6 +311,7 @@ def is_pop_order(sin, sout):
     
 if __name__ == "__main__":
     import random
+
     def create_list():
         values = []
         for i in range(15):
@@ -336,16 +351,5 @@ if __name__ == "__main__":
     # linked_list.bianli()
     # linked_list.delete(666)
 
-    h = linked_list.head
+    h = swap_pairs(linked_list.head)
     bianli(h)
-    reverse_list(h)
-
-
-
-
-
-
-
-
-
-        

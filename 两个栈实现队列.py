@@ -1,4 +1,5 @@
-# -*- coding:utf-8 -*-
+# coding: utf-8
+
 
 class Queue():
     def __init__(self):
@@ -27,6 +28,3 @@ if __name__ == '__main__':
             print q.dequeue()
         except IndexError:
             break
-
-
-    

@@ -6,6 +6,7 @@
 
 from stack_with_min import Stack_With_Min
 
+
 def is_pop_order(in_order, out_order):
     s = Stack_With_Min()
     while in_order:
@@ -13,7 +14,7 @@ def is_pop_order(in_order, out_order):
         s.push(value)
         # 如果栈顶元素和出序列的第一个元素相等，则一直出栈，直到和出序列不相等为止
         if value == out_order[0]:
-            while s.length>=0 and out_order and s.top() == out_order[0]:
+            while s.length >= 0 and out_order and s.top() == out_order[0]:
                 s.pop() == out_order.pop(0)
         
     if s.length == 0:
@@ -29,4 +30,3 @@ if __name__ == '__main__':
     print in_order
     print out_order
     print is_pop_order(in_order, out_order)
-
