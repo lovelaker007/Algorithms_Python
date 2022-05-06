@@ -11,6 +11,7 @@ class Tree(object):
         self.root = None
 
     def add_t(self, root, value):
+        # 20220506分支
         if not root:
             return TreeNode(value)
 
