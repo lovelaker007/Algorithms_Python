@@ -17,6 +17,7 @@ class Tree(object):
         if value < root.value:
             root.left = self.add_t(root.left, value)
         elif value > root.value:
+            # master注释
             root.right = self.add_t(root.right, value)
         else:
             pass
